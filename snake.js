@@ -2,14 +2,26 @@ function Snake() {
     this.x = 0;
     this.y = 0;
     this.xSpeed = scale * 1;
-    this.ySpeed = 0
+    this.ySpeed = 0;
+    this.size = 0;
+    this.body = [];
 
     this.draw = function () {
         ctx.fillStyle = "#FFFFFF";
+
+        for (let i = 0; i < this.body.length; i++) {
+            ctx.fillRect(this.body[i].x, this.body[i].y, scale, scale)
+        }
         ctx.fillRect(this.x, this.y, scale, scale)
     }
 
     this.update = function () {
+        for (let i = 0; i < this.body.length - 1; i++) {
+            this.body[i] = this.body[i + 1];
+        }
+
+        this.body[this.size - 1] = { x: this.x, y: this.y };
+
         this.x += this.xSpeed;
         this.y += this.ySpeed;
 
@@ -46,5 +58,13 @@ function Snake() {
                 this.ySpeed = 0;
                 break;
         }
+    }
+
+    this.eat = function (fruit) {
+        if (fruit.x == this.x && fruit.y == this.y) {
+            this.size++;
+            return true;
+        }
+        return false;
     }
 }
