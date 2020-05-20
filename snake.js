@@ -26,17 +26,28 @@ function Snake() {
         this.y += this.ySpeed;
 
         if (this.x > canvas.width) {
-            this.x = 0;
+            // reset if the snake hits the side
+            this.reset();
         }
         if (this.y > canvas.height) {
-            this.y = 0;
+            this.reset();
         }
         if (this.x < 0) {
-            this.x = canvas.width;
+            this.reset();
         }
         if (this.y < 0) {
-            this.y = canvas.height;
+            this.reset();
         }
+    }
+
+    // call this to reset the whole game with speed 0
+    this.reset = function () {
+        this.x = 0;
+        this.y = 0;
+        this.size = 0;
+        this.body = [];
+        this.xSpeed = 0;
+        this.ySpeed = 0;
     }
 
     this.changeDirection = function (direction) {
@@ -67,4 +78,14 @@ function Snake() {
         }
         return false;
     }
+
+    this.checkCollision = function () {
+        for (let i = 0; i < this.body.length; i++) {
+            if (this.x == this.body[i].x && this.y == this.body[i].y) {
+                print("Your score was");
+                this.reset();
+            }
+        }
+    }
+
 }
